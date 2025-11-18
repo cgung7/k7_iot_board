@@ -15,8 +15,8 @@ import org.example.boardback.entity.user.User;
                 "board_id", "user_id"
         }),
         indexes = {
-                @Index(name = "idx_board_likes_user_id", columnList = "user_id"),
-                @Index(name = "idx_board_likes_updated_at", columnList = "updated_at"),
+                @Index(name = "idx_board_like_board", columnList = "board_id"),
+                @Index(name = "idx_board_like_user", columnList = "user_id"),
         }
 )
 @Getter
