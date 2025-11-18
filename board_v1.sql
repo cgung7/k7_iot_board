@@ -1,4 +1,4 @@
-DROP DATABASE IF EXISTS `board_v1`;
+# DROP DATABASE IF EXISTS `board_v1`;
  
 CREATE DATABASE IF NOT EXISTS `board_v1`
 	CHARACTER SET utf8mb4
@@ -9,12 +9,19 @@ USE `board_v1`;
 SET NAMES utf8mb4;				# 클라이언트와 MySQP 서버 간 문자 인코딩 설정
 SET FOREIGN_KEY_CHECKS = 0;		# 외래 키 제약 조건 검사를 일시적으로 끄는 설정	
 
-# === USERS (사용자) === #
+# === 기존 테이블 제거 === #
+DROP TABLE IF EXISTS comments;
+DROP TABLE IF EXISTS board_likes;
+DROP TABLE IF EXISTS board_drafts;
+DROP TABLE IF EXISTS boards;
+DROP TABLE IF EXISTS board_category;
+
+DROP TABLE IF EXISTS retresh_tokens;
 DROP TABLE IF EXISTS user_roles;
 DROP TABLE IF EXISTS roles;
-DROP TABLE IF EXISTS retresh_tokens;
 DROP TABLE IF EXISTS users;
 
+# === USERS (사용자) === #
 CREATE TABLE users (
 	id BIGINT AUTO_INCREMENT PRIMARY KEY,
     
@@ -176,7 +183,8 @@ CREATE TABLE board_likes(
     COMMENT = '게시글 좋아요';
 
 # === BoardDraft (게시글 임시 저장) === #
-CREATE TABLE board_draft(
+
+CREATE TABLE board_drafts(
 	id BIGINT AUTO_INCREMENT PRIMARY KEY,
     
     title VARCHAR(150) NULL COMMENT '임시 제목',
@@ -196,26 +204,6 @@ CREATE TABLE board_draft(
     DEFAULT CHARSET = utf8mb4
     COLLATE = utf8mb4_unicode_ci
     COMMENT = '게시글 임시 저장';
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ 
 SET FOREIGN_KEY_CHECKS = 1;
 
