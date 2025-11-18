@@ -2,9 +2,15 @@ package org.example.boardback.entity.user;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.example.boardback.common.enums.Gender;
+import org.example.boardback.common.enums.RoleType;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(
@@ -38,7 +44,45 @@ public class User {
     @Column(name = "gender", length = 20)
     private Gender gender;
 
-    @OneToMany()
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<UserRole> userRoles = new HashSet<>();
 
+    @Builder
+    private User(String username, String password, String email, String nickname, Gender gender) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.nickname = nickname;
+        this.gender = gender;
+    }
+
+    // == 도메인 로직 == //
+    public void changePassword(String password) {
+        this.password = password;
+    }
+
+    public void changeProfile(String nickname, Gender gender) {
+        this.nickname = nickname;
+        this.gender = gender;
+    }
+
+    public void grantRole(Role role) {
+        boolean exists = userRoles.stream()
+                .anyMatch(userRole -> userRole.getRole().equals(role));
+        if (!exists) {
+            userRoles.add(new UserRole(this, role));
+        }
+    }
+
+    public void revokeRole(Role role) {
+        userRoles.removeIf(userRole -> userRole.getRole().equals(role));
+    }
+
+    public Set<RoleType> getRoleTypes() {
+        return userRoles.stream()
+                .map(UserRole::getRole)
+                .map(Role::getName)
+                .collect(Collectors.toUnmodifiableSet());
+    }
 
 }
