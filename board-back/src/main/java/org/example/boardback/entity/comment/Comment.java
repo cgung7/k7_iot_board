@@ -8,12 +8,14 @@ import lombok.NoArgsConstructor;
 import org.example.boardback.entity.base.BaseTimeEntity;
 import org.example.boardback.entity.board.Board;
 import org.example.boardback.entity.user.User;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @Entity
 @Table(
         name = "comments",
         indexes = {
-                @Index(name = "idx_comments_board_id", columnList = "user_id"),
+                @Index(name = "idx_comments_board_id", columnList = "board_id"),
                 @Index(name = "idx_comments_user_id", columnList = "user_id"),
         }
 )
@@ -25,6 +27,7 @@ public class Comment extends BaseTimeEntity {
     private Long id;
 
     @Lob
+    @JdbcTypeCode(SqlTypes.LONGVARCHAR)
     @Column(nullable = false)
     private String content;
 

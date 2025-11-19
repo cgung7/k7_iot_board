@@ -12,7 +12,7 @@ import java.time.Instant;
 
 @Entity
 @Table(
-        name = "comments",
+        name = "refresh_tokens",
         indexes = {
                 @Index(name = "idx_refresh_token_user_id", columnList = "user_id"),
         }
@@ -20,7 +20,8 @@ import java.time.Instant;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class RefreshToken extends BaseTimeEntity {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false)
     private Long id;
 
@@ -50,8 +51,8 @@ public class RefreshToken extends BaseTimeEntity {
         this.expiry = newExpiry;
     }
 
-    // == 만료 여주 판단 == //
-    public boolean isExpires() {
+    // == 만료 여부 판단 == //
+    public boolean isExpired() {
         return Instant.now().isAfter(expiry);
     }
 }

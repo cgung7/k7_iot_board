@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Entity
 @Table(
-        name = "board_categorys",
+        name = "board_categories",
         uniqueConstraints = {
                 @UniqueConstraint(name = "uk_board_category_name", columnNames = "name")
         }

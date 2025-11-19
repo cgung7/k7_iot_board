@@ -38,7 +38,7 @@ public class FileServiceImpl {
     private void ensureDirectory(String path) {
         File dir = new File(path);
         if (!dir.exists()) {
-            // 업로드 하려는 경로가 실제 디렉토리에 존재하지 않으면
+            // 업로드하려는 경로가 실제 디렉토리에 존재하지 않으면
             // cf) mkdirs(): 존재하지 않는 상위 디렉토리까지 모두 생성
             dir.mkdirs();
         }
@@ -59,13 +59,21 @@ public class FileServiceImpl {
 
     /** 프로필 업로드 (1개만 유지) */
     public FileInfo saveUserProfile(MultipartFile file) {
+//        long maxSize = 5 * 1024 * 1024; // 5MB
+//
+//        if (file.getSize() > maxSize) {
+//            throw new IllegalArgumentException("파일 크기가 제한을 초과했습니다.");
+//        }
+
         if (file.isEmpty()) return null;
 
         try {
             String original = file.getOriginalFilename();
             String cleanName = StringUtils.cleanPath(original);
             String storedName = generateStoredName(cleanName);
+
             String fullDir = basePath + "/" + profilePath;
+            ensureDirectory(fullDir);
 
             // Paths.get()으로 경로값을 받아 Path 객체 생성
             Path path = Paths.get(fullDir + "/" + storedName);
@@ -89,7 +97,7 @@ public class FileServiceImpl {
         }
     }
 
-
+    /** 게시글 파일 업로드 */
     public FileInfo saveBoardFile(Long boardId, MultipartFile file) {
         if (file.isEmpty()) return null;
 
@@ -97,12 +105,13 @@ public class FileServiceImpl {
             String original = file.getOriginalFilename();
             String cleanName = StringUtils.cleanPath(original);
             String storedName = generateStoredName(cleanName);
-            String fullDir = basePath + "/" + profilePath;
 
             String relativePath = boardRootPath + "/" + boardId;
+            String fullDir = basePath + "/" + relativePath;
+
+            ensureDirectory(fullDir);
+
             Path path = Paths.get(fullDir + "/" + storedName);
-            // InputStream 으로 데이터를 읽어 path 위치에 파일을 생성 (또는 덮어쓰기)
-            // +) REPLACE_EXISTING: 덮어쓰기 옵션
             Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 
             FileInfo info = FileInfo.builder()
@@ -121,7 +130,7 @@ public class FileServiceImpl {
         }
     }
 
-    /** 파일 삭제*/
+    /** 파일 삭제 */
     public void deleteFile(FileInfo info) {
         try {
             Path path = Paths.get(info.getFilePath());
@@ -131,5 +140,4 @@ public class FileServiceImpl {
             throw new FileStorageException("파일 삭제 실패", e);
         }
     }
-
 }

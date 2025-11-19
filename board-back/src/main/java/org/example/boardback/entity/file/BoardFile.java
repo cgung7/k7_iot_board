@@ -5,7 +5,7 @@ import lombok.*;
 import org.example.boardback.entity.board.Board;
 
 @Entity
-@Table(name = "board_file")
+@Table(name = "board_files")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder

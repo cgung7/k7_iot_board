@@ -25,7 +25,7 @@ public class ProfileServiceImpl {
 
         // 기존 프로필 삭제
         if (user.getProfileFile() != null) {
-            //기존 프로필이 있는 경우
+            // 기존 프로필이 있는 경우
             FileInfo current = fileInfoRepository.findById(user.getProfileFile().getId())
                     .orElse(null);
 
@@ -43,5 +43,13 @@ public class ProfileServiceImpl {
 
         return saved;
     }
+
+
+
+
+
+
+
+
 
 }
