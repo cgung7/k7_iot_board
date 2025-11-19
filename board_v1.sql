@@ -17,7 +17,7 @@ DROP TABLE IF EXISTS comments;
 DROP TABLE IF EXISTS board_likes;
 DROP TABLE IF EXISTS board_drafts;
 DROP TABLE IF EXISTS boards;
-DROP TABLE IF EXISTS board_category;
+DROP TABLE IF EXISTS board_categories;
 
 DROP TABLE IF EXISTS refresh_tokens;
 DROP TABLE IF EXISTS user_roles;
@@ -115,8 +115,6 @@ CREATE TABLE refresh_tokens (
     COMMENT = '리프레시 토큰 저장 테이블';
     
 # === Board / Category (게시판 / 게시판 카테고리) === #
-DROP TABLE IF EXISTS boards;
-DROP TABLE IF EXISTS board_category;
 
 # === BoardCategory(게시판 카테고리) === #
 CREATE TABLE board_categories(
@@ -160,25 +158,9 @@ CREATE TABLE boards(
     COMMENT = '게시글';
     
     select * from users;
+    select * from boards;
+    select * from board_files;
     
-    
-    INSERT INTO boards (title, content, view_count, is_pinned, user_id, category_id, created_at, updated_at)
-VALUES
-('공지: 서버 유지보수 안내', '내일 새벽 서버 점검합니다.', 100, TRUE, 1, 1, NOW(), NOW()),
-('첫 번째 자유게시글', '가입했습니다.', 12, FALSE, 2, 2, NOW(), NOW()),
-('스프링 질문입니다.', 'DI와 IOC가 뭔가요?', 54, FALSE, 3, 8, NOW(), NOW()),
-('오늘 찍은 사진입니다.', '부산 바다 사진', 77, FALSE, 4, 5, NOW(), NOW()),
-('유머 모음집', '웃긴 글 모음', 120, FALSE, 5, 4, NOW(), NOW()),
-('프로젝트 제안', '같이 할 사람?', 18, FALSE, 6, 7, NOW(), NOW()),
-('자바스크립트 질문', 'this 바인딩?', 44, FALSE, 7, 9, NOW(), NOW()),
-('DB optimization', '인덱스 팁 알려주세요', 65, FALSE, 8, 10, NOW(), NOW()),
-('운동 정보 공유', '3대 500 도전', 12, FALSE, 9, 6, NOW(), NOW()),
-('자유글 테스트1', '내용입니다', 0, FALSE, 10, 2, NOW(), NOW()),
-('자유글 테스트2', '내용입니다', 0, FALSE, 11, 2, NOW(), NOW()),
-('자유글 테스트3', '내용입니다', 0, FALSE, 12, 2, NOW(), NOW()),
-('유머1', 'ㅋㅋㅋㅋ', 22, FALSE, 13, 4, NOW(), NOW()),
-('유머2', '하하하', 30, FALSE, 14, 4, NOW(), NOW()),
-('스프링 정보', 'Bean Scope 정리', 10, FALSE, 15, 8, NOW(), NOW());
     
 # === BOARD_FILES (게시글 파일 메핑) === #
 CREATE TABLE board_files (
