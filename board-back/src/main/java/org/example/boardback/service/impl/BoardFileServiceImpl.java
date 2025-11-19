@@ -166,8 +166,8 @@ public class BoardFileServiceImpl {
 
         // 3. 삭제 처리
         for (BoardFile bf: deleteTargets) {
-            boardFileRepository.delete(bf);             // board_files 삭제
             fileService.deleteFile(bf.getFileInfo());   // 디스크 + file_infos 삭제
+            boardFileRepository.delete(bf);             // board_files 삭제
         }
 
         // 4. 신규 파일 추가
