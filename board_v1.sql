@@ -1,4 +1,4 @@
-# DROP DATABASE IF EXISTS `board_v1`;
+#DROP DATABASE IF EXISTS `board_v1`;
  
 CREATE DATABASE IF NOT EXISTS `board_v1`
 	CHARACTER SET utf8mb4
@@ -16,7 +16,7 @@ DROP TABLE IF EXISTS board_drafts;
 DROP TABLE IF EXISTS boards;
 DROP TABLE IF EXISTS board_category;
 
-DROP TABLE IF EXISTS retresh_tokens;
+DROP TABLE IF EXISTS refresh_tokens;
 DROP TABLE IF EXISTS user_roles;
 DROP TABLE IF EXISTS roles;
 DROP TABLE IF EXISTS users;
@@ -31,6 +31,7 @@ CREATE TABLE users (
     nickname VARCHAR(50) NOT NULL COMMENT '닉네임',
     
     gender VARCHAR(10) COMMENT '성별',
+    profile_file_id BIGINT NULL COMMENT '프로필 이미지 파일 ID',
     
     created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     updated_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
@@ -38,7 +39,8 @@ CREATE TABLE users (
     CONSTRAINT `uk_users_username` UNIQUE(username),
     CONSTRAINT `uk_users_email` UNIQUE(email),
     CONSTRAINT `uk_users_nickname` UNIQUE(nickname),
-    CONSTRAINT `chk_users_genter` CHECK(gender IN ('MALE', 'FEMALE', 'OTHER', 'NONE'))
+    CONSTRAINT `chk_users_genter` CHECK(gender IN ('MALE', 'FEMALE', 'OTHER', 'NONE')),
+    CONSTRAINT `fk_users_profile_file` FOREIGN KEY (profile_file_id) REFERENCES file_info(id) ON DELETE SET NULL
 )
 	ENGINE=InnoDB
     DEFAULT CHARSET = utf8mb4
@@ -74,7 +76,7 @@ CREATE TABLE user_roles (
     COMMENT = '유저-권한 매핑 테이블';
     
 # === REFRESH TOKENS (1:1 관계) === #
-CREATE TABLE refresh_token (
+CREATE TABLE refresh_tokens (
 	id BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id BIGINT NOT NULL UNIQUE COMMENT '사용자 ID',
     token VARCHAR(350) NOT NULL COMMENT '리프레시 토큰 값',
