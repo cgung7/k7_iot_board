@@ -2,6 +2,7 @@ package org.example.boardback.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.example.boardback.entity.file.FileInfo;
+import org.example.boardback.exception.FileStorageException;
 import org.example.boardback.repository.file.FileInfoRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

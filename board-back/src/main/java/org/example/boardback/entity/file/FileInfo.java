@@ -18,7 +18,7 @@ public class FileInfo {
     private Long id;
 
     @Column(nullable = false)
-    private String name;
+    private String originalName;
 
     @Column(nullable = false)
     private String storedName;
