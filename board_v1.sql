@@ -157,11 +157,6 @@ CREATE TABLE boards(
     COLLATE = utf8mb4_unicode_ci
     COMMENT = '게시글';
     
-    select * from users;
-    select * from boards;
-    select * from board_files;
-    
-    
 # === BOARD_FILES (게시글 파일 메핑) === #
 CREATE TABLE board_files (
 	id BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -246,6 +241,9 @@ CREATE TABLE board_drafts(
     COLLATE = utf8mb4_unicode_ci
     COMMENT = '게시글 임시 저장';
     SELECT * FROM boards;
+    
+    select * from board_files;
+    select * from file_infos;
  
 SET FOREIGN_KEY_CHECKS = 1;
 
